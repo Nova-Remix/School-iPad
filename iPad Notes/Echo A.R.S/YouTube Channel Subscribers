@@ -1,0 +1,28 @@
+YouTube Channel Subscribers
+
+
+
+
+.auto &.save {params}={init}
+ParamRegex.(_|-|UC)?:I have saved your tag, {user}!
+{m?YouTube:{/user}'s-channel-ID} := {params}
+Response.nil?:Please type in your channel ID, not your YouTube username, {user}!
+
+
+
+
+.auto &.subs={init}
+DB:YouTube.{/user}'s-channel-ID?:{ars:GetSubs}
+Response.nil?:This user does not have their channel ID saved! They must save it by doing `.save YOUTUBE-CHANNEL-ID`
+
+
+
+
+.auto GetSubs={init}{arslock}
+{getapi:
+  {src:https://www.googleapis.com/youtube/v3/channels?part=statistics&id={r?YouTube:{/user}'s-channel-ID}&key=AIzaSyBU_oWEIULi3-n96vWKETYCMsldYDAlz2M}
+__*{/user}'s Sub Count*__
+
+*Subscribers?* **{print:items:statistics:subscriberCount}**
+*Has hidden subscriber count?* **{print:items:statistics:hiddenSubscriberCount}**
+}

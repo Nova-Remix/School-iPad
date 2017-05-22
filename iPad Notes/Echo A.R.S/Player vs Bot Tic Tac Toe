@@ -1,0 +1,195 @@
+.create -db TTT
+
+
+
+.auto &Play TTT={init}
+*Thank you for beginning a game of Tic Tac Toe! Here is what you need to know:
+
+__**HOW TO PLAY**__
+You can either choose if you go first or if the bot goes first by saying the following:
+`The User Goes First` ~ Obviously the user will go first.
+`The Bot Goes First` ~ Obviously the bot will go first.
+
+There will be a square with given letters and numbers such as:
+`A1` `A2` and `A3`. These are your choices of where to place your :x: OR your :o:. Choose wisely. And please, if the spot is taken already, don't try to place your X or O there. That really ruins the fun.
+
+You also need to know that you can either choose to be :x: or :o:! You can do this by typing `I choose :x:` or `I choose :o:`.
+
+To place your :x: or :o:, type in `Place` then the letter and number. Example: `Place A3`
+
+Well, that's it for now. To begin playing just type in what you want (:x: or :o:) then type who goes first!*
+
+
+
+
+.auto &I choose {params}={init}
+ParamsContains.:x:?:You are now :x:! Now choose who goes first!{ars:X}
+ParamsContains.:o:?:You are now :o:! Now choose who goes first!{ars:O}
+Response.nil?:This is an invalid choice, {user}! The two choices are :x: and :o:!
+
+
+
+
+.auto O={init}{arslock}
+{m?TTT:{/user}-letter} := :o:
+{m?TTT:ECHO-letter-{/user}} := :x:
+
+
+
+
+.auto X={init}{arslock}
+{m?TTT:{/user}-letter} := :x:
+{m?TTT:ECHO-letter-{/user}} := :o:
+
+
+
+
+.auto &The {params}={init}
+{m?TTT:A1} := A1
+{m?TTT:A2} := A2
+{m?TTT:A3} := A3
+{m?TTT:B1} := B1
+{m?TTT:B2} := B2
+{m?TTT:B3} := B3
+{m?TTT:C1} := C1
+{m?TTT:C2} := C2
+{m?TTT:C3} := C3
+ParamsContains.User Goes First?:{ars:UserFirst}
+ParamsContains.Bot Goes First?:{ars:BotsTurn}
+Response.nil?:This is not a valid choice. The two choices are `The User Goes First` and `The Bot Goes First`!
+
+
+
+
+.auto UserFirst={init}{arslock}
+{m?TTT:A1} := A1
+{m?TTT:A2} := A2
+{m?TTT:A3} := A3
+{m?TTT:B1} := B1
+{m?TTT:B2} := B2
+{m?TTT:B3} := B3
+{m?TTT:C1} := C1
+{m?TTT:C2} := C2
+{m?TTT:C3} := C3
+{ars:TheGrid}
+
+
+
+
+.auto TheGrid={init}{arslock}
+Here is the grid, {/user}!
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:A1} :black_square_button: {r?TTT:A2} :black_square_button: {r?TTT:A3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:B1}  :black_square_button: {r?TTT:B2}  :black_square_button: {r?TTT:B3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:C1}  :black_square_button: {r?TTT:C2} :black_square_button: {r?TTT:C3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+
+Please type in `Place` then the location!
+
+
+
+
+.auto &Place {params}={init}
+{ars:CheckPlacement}
+
+
+
+
+.auto CheckPlacement={init}
+String.{r?TTT:{params}} == :x:?:This placement has already been taken!
+String.{r?TTT:{params}} == :o:?:This placement has already been taken!
+Response.nil?:{ars:Placement}
+
+
+
+
+.auto Placement={init}{arslock}
+{m?TTT:{params}} := {r?TTT:{/user}-letter}
+{ars:CheckWinner}
+
+
+
+
+.auto NewGrid={init}{arslock}
+Here is the grid, {/user}!
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:A1} :black_square_button: {r?TTT:A2} :black_square_button: {r?TTT:A3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:B1}  :black_square_button: {r?TTT:B2}  :black_square_button: {r?TTT:B3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+:black_square_button: {r?TTT:C1}  :black_square_button: {r?TTT:C2} :black_square_button: {r?TTT:C3} :black_square_button:
+:black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button::black_square_button:
+
+Now it's my turn!
+{ars:BotsTurn}
+
+
+
+
+
+.auto BotsTurn={init}{arslock}
+String.{r?TTT:A1} {r?TTT:A2} {r?TTT:A3} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:A1} {r?TTT:B2} {r?TTT:C3} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:A1} {r?TTT:B1} {r?TTT:C1} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:B1} {r?TTT:B2} {r?TTT:B3} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:C1} {r?TTT:C2} {r?TTT:C3} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:A2} {r?TTT:B2} {r?TTT:C2} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+String.{r?TTT:A3} {r?TTT:B3} {r?TTT:C3} == {r?TTT:ECHO-letter} {r?TTT:ECHO-letter} {r?TTT:ECHO-letter}?:{ars:BotWins}
+Response.nil?:{ars:BotPlace}
+
+
+
+
+.auto BotPlace={init}{arslock}
+{m?TTT:{randlist:A1,A2,A3,B1,B2,B3,C1,C2,C3}} := {r?TTT:ECHO-letter}
+I have made my move, {/user}!
+{ars:TheGrid}
+
+
+
+
+.auto CheckWinner={init}{arslock}
+String.{r?TTT:A1} {r?TTT:A2} {r?TTT:A3} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:A1} {r?TTT:B2} {r?TTT:C3} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:A1} {r?TTT:B1} {r?TTT:C1} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:B1} {r?TTT:B2} {r?TTT:B3} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:C1} {r?TTT:C2} {r?TTT:C3} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:A2} {r?TTT:B2} {r?TTT:C2} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+String.{r?TTT:A3} {r?TTT:B3} {r?TTT:C3} == {r?TTT:{/user}-letter} {r?TTT:{/user}-letter} {r?TTT:{/user}-letter}?:{ars:UserWins}
+Response.nil?:{ars:NewGrid}
+
+
+
+
+.auto UserWins={init}{arslock}
+{/user} has won the game!
+{d?TTT:A1}
+{d?TTT:A2}
+{d?TTT:A3}
+{d?TTT:B1}
+{d?TTT:B2}
+{d?TTT:B3}
+{d?TTT:C1}
+{d?TTT:C2}
+{d?TTT:C3}
+{d?TTT:ECHO-letter}
+{d?TTT:{/user}-letter}
+
+
+
+
+.auto BotWins={init}{arslock}
+*I have won the game, {/user}! You have done very well!*
+{d?TTT:A1}
+{d?TTT:A2}
+{d?TTT:A3}
+{d?TTT:B1}
+{d?TTT:B2}
+{d?TTT:B3}
+{d?TTT:C1}
+{d?TTT:C2}
+{d?TTT:C3}
+{d?TTT:ECHO-letter}
+{d?TTT:{/user}-letter}

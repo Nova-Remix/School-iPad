@@ -1,4 +1,3 @@
-```js
 if (command === "info") {
 
     if (message.mentions.users.size < 1) return message.reply('You must mention a user to grab the info of.').catch(console.error);
@@ -41,4 +40,4 @@ return message.channel.sendEmbed(embed).catch(console.error);
 
 }
 
-});```
+});

@@ -1,0 +1,6 @@
+.auto &.user={init}
+*Information request for* **{/user}:**
+ **User ID:** *`{getid}`*
+ **User join date:** *`{joined}`*
+ **User roles:** *`{listroles}`*
+ **User Bot Commander:** *`{ismaster}`*

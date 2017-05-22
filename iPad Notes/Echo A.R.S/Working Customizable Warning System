@@ -1,0 +1,212 @@
+Working Customizable Warning System
+
+
+
+
+.auto &.warn={init}
+String.{/rawid} == {rawid}?:Don't warn yourself.
+Response.nil?:{ars:checkWarnings}
+
+
+
+
+.auto checkWarnings={init}
+{arslock}
+DB:warnings.{rawid}?:{ars:giveWarning}
+Response.nil?:{ars:createFirstWarning}
+
+
+
+
+.auto createFirstWarning={init}
+{m?warnings:{rawid}} := 0
+{ars:giveWarning}
+
+
+
+
+.auto giveWarning={init}
+{arslock}
+{e?warnings:{rawid}(+1)}
+{ars:checkWarningAmount}
+
+
+
+
+.auto checkWarningAmount={init}
+{arslock}
+Count.{r?warnings:{rawid}} == 1?:{ars:giveWarning1}
+Count.{r?warnings:{rawid}} == 2?:{ars:giveWarning2}
+Count.{r?warnings:{rawid}} == 3?:{ars:giveWarning3}
+Count.{r?warnings:{rawid}} == 4?:{ars:giveWarning4}
+Count.{r?warnings:{rawid}} == 5?:{ars:giveWarning5}
+Count.{r?warnings:{rawid}} == 6?:{ars:giveWarning6}
+Count.{r?warnings:{rawid}} == 7?:{ars:giveWarning7}
+Count.{r?warnings:{rawid}} == 8?:{ars:giveWarning8}
+Count.{r?warnings:{rawid}} == 9?:{ars:giveWarning9}
+Count.{r?warnings:{rawid}} == 10?:{ars:giveWarning10}
+
+
+
+
+.auto giveWarning1={init}
+{arslock}
+String.{r?warnings:1-action} == mute?:{ars:muteUser}
+String.{r?warnings:1-action} == kick?:{ars:kickUser}
+String.{r?warnings:1-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning2={init}
+{arslock}
+String.{r?warnings:2-action} == mute?:{ars:muteUser}
+String.{r?warnings:2-action} == kick?:{ars:kickUser}
+String.{r?warnings:2-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning3={init}
+{arslock}
+String.{r?warnings:#-action} == mute?:{ars:muteUser}
+String.{r?warnings:3-action} == kick?:{ars:kickUser}
+String.{r?warnings:3-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning4={init}
+{arslock}
+String.{r?warnings:4-action} == mute?:{ars:muteUser}
+String.{r?warnings:4-action} == kick?:{ars:kickUser}
+String.{r?warnings:4-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning5={init}
+{arslock}
+String.{r?warnings:5-action} == mute?:{ars:muteUser}
+String.{r?warnings:5-action} == kick?:{ars:kickUser}
+String.{r?warnings:5-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning6={init}
+{arslock}
+String.{r?warnings:6-action} == mute?:{ars:muteUser}
+String.{r?warnings:6-action} == kick?:{ars:kickUser}
+String.{r?warnings:6-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning7={init}
+{arslock}
+String.{r?warnings:7-action} == mute?:{ars:muteUser}
+String.{r?warnings:7-action} == kick?:{ars:kickUser}
+String.{r?warnings:7-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning8={init}
+{arslock}
+String.{r?warnings:8-action} == mute?:{ars:muteUser}
+String.{r?warnings:8-action} == kick?:{ars:kickUser}
+String.{r?warnings:8-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning9={init}
+{arslock}
+String.{r?warnings:9-action} == mute?:{ars:muteUser}
+String.{r?warnings:9-action} == kick?:{ars:kickUser}
+String.{r?warnings:9-action} == ban?:{ars:banUser}
+
+
+
+
+.auto giveWarning10={init}
+{arslock}
+String.{r?warnings:10-action} == mute?:{ars:muteUser}
+String.{r?warnings:10-action} == kick?:{ars:kickUser}
+String.{r?warnings:10-action} == ban?:{ars:banUser}
+
+
+
+
+.auto muteUser={init}
+{arslock}
+{target:{rawid}}
+*I have muted* `{/user}` for 2 minutes.
+{ars:muteTimer}
+{role:Muted}
+
+
+
+
+.auto muteTimer={init}
+{arslock}
+{sleep:2m}
+{target:{rawid}}
+{take:Muted}
+
+
+
+
+.auto kickUser={init}
+{arslock}
+{target:{rawid}}
+{kick}
+*I have kicked* `{/user}`.
+
+
+
+
+.auto banUser={init}
+{arslock}
+{target:{rawid}}
+{ban}
+*I have banned* `{/user}`.
+
+
+
+
+.auto &.setwarning {params}={init}
+{split: }
+{m?warnings:Param1} := {/p1}
+{m?warnings:Param2} := {/p2}
+{ars:checkNumber}
+
+
+
+
+.auto checkNumber={init}
+{arslock}
+Count.{r?warnings:Param1} == 0?:Start numbering you warning from zero.{ars:delParams}
+Count.{r?warnings:Param1} > 10?:You can only have up to 10 warnings.{ars:delParams}
+String.{r?warnings:Param2} == Mute?:{ars:createWarning}
+String.{r?warnings:Param2} == Kick?:{ars:createWarning}
+String.{r?warnings:Param2} == Ban?:{ars:createWarning}
+Response.nil?:Choose from `Mute`/`Kick`/`Ban`
+
+
+
+
+.auto createWarning={init}
+{arslock}
+{m?warnings:{r?warnings:Param1}-action} := {r?warnings:Param2}
+I have set *Warning {r?warnings:Param1}* to: `{r?warnings:Param2}`
+{ars:delParams}
+
+
+
+
+.auto delParams={init}
+{arslock}
+{d?warnings:Param1}
+{d?warnings:Param2}

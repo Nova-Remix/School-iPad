@@ -1,0 +1,212 @@
+Small Square Tic Tac Toe
+
+.create -db SSTTT
+
+
+
+
+.auto &.SSTTT={init}
+{m?SSTTT:TL} := :question:
+{m?SSTTT:TM} := :question:
+{m?SSTTT:MR} := :question:
+{m?SSTTT:ML} := :question:
+{m?SSTTT:MM} := :question:
+{m?SSTTT:MR} := :question:
+{m?SSTTT:LL} := :question:
+{m?SSTTT:LM} := :question:
+{m?SSTTT:LR} := :question:
+*Thank you for beginning a game of Tic Tac Toe! Here is what you need to know:
+
+__**HOW TO PLAY**__
+You can either choose if you go first or if the bot goes first by saying the following:
+`.first User` ~ Obviously the user will go first.
+`.first Bot` ~ Obviously the bot will go first.
+
+There will be a square with given certain letters, such as:
+`TL` (Top Left), `TM` (Top Middle) and `TR` (Top Right). These are your choices of where to place your :x: OR your :o:. Choose wisely. And please, if the spot is taken already, don't try to place your X or O there. That really ruins the fun.
+
+You also need to know that you can either choose to be :x: or :o:! You can do this by typing `.use :x:` or `.use :o:`.
+
+To place your :x: or :o:, type in `.place` then the area.. Example: `.place TR`. The list of placements will be given to you shortly.
+
+Well, that's it for now. To begin playing just type in what you want (:x: or :o:) then type who goes first!*
+
+
+
+
+.auto &.use {params}={init}
+Params.:x:?:{ars:ChoiceX}
+Params.:o:?:{ars:ChoiceO}
+Response.nil?:*The two choices are `:x:` and `:o:`!*
+
+
+
+
+.auto ChoiceX={init}{arslock}
+*Alright, {user}, you have chosen :x:! The bot will now be :o:!*
+{m?SSTTT:{/user}} := :x:
+{m?SSTTT:Echo} := :o:
+
+
+
+
+.auto ChoiceO={init}{arslock}
+*Alright, {user}, you have chosen :o:! The bot will now be :o:!*
+{m?SSTTT:{/user}} := :o:
+{m?SSTTT:Echo} := :x:
+
+
+
+
+.auto &.first {params}={init}
+DB:SSTTT.{/user}?:{ars:CheckFirst}
+Response.nil?:*{user}, you need to choose which letter you want to be first! :x: or :o:!*
+
+
+
+
+.auto CheckFirst={init}{arslock}
+ParamRegex.(Bot|bot)?:*Alright, {user}! I will go first! {ars:BotPlacementCheck}*
+ParamRegex.(User|user)?:*Alright, {user}! I will display a list of placements you can use and the locations!* {ars:ShowFirstGrid}
+Response.nil?:*This is not an available choice! Only `User` and `Bot` can be chosen!*
+
+
+
+
+.auto ShowFirstGrid={init}{arslock}
+*This is what the grid looks like right now:*
+
+:question::question::question:
+:question::question::question:
+:question::question::question:
+
+*And here is the list of placement choices:
+`TL` = Top Left
+`TM` = Top Middle
+`TR` = Top Right
+`ML` = Middle Left
+`MM` = Middle Middle (Dead Center)
+`MR` = Middle Right
+`LL` = Lower Left
+`LM` = Lower Middle
+`LR` = Lower Right*
+
+*Now you must type in `.place` then the placement letters. Make sure to use capitals!*
+
+
+
+
+.auto &.place {params}={init}
+String.{r?SSTTT:{params}} == {r?SSTTT:Echo}?:*You cannot use this location, {user}! It has already been taken by me!*
+String.{r?SSTTT:{params}} == {r?SSTTT:{/user}}?:*You've already placed a letter here, {user}! Try placing it somewhere else!*
+Response.nil?:*You have made your choice! Now I will show you the grid!* {ars:TheBotGrid}{m?SSTTT:{params}} := {r?SSTTT:{/user}}
+
+
+
+
+.auto BotPlacementCheck={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try1}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try1}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto MakeBotMove={init}{arslock}
+{m?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} := {r?SSTTT:Echo}
+
+
+
+
+.auto Try1={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try2}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try2}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try2={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LM,LR,LL}} == {r?SSTTT:{/user}}?:{ars:Try3}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LM,LR,LL}} == {r?SSTTT:Echo}?:{ars:Try3}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try3={init}{arslock}
+String.{r?SSTTT:{randlist:TM,LL,LR,TR,TL,LM,MM,MR,ML}} == {r?SSTTT:{/user}}?:{ars:Try4}
+String.{r?SSTTT:{randlist:TM,LL,LR,TR,TL,LM,MM,MR,ML}} == {r?SSTTT:Echo}?:{ars:Try4}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try4={init}{arslock}
+String.{r?SSTTT:{randlist:MM,MR,ML,TL,TR,LL,TM,LM,LR}} == {r?SSTTT:{/user}}?:{ars:Try5}
+String.{r?SSTTT:{randlist:MM,MR,ML,TL,TR,LL,TM,LM,LR}} == {r?SSTTT:Echo}?:{ars:Try5}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try5={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try6}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try6}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try6={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try7}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try7}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try7={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try8}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try8}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try8={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try9}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try9}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try9={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try10}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try10}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try10={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try11}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try11}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try11={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:{ars:Try12}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:{ars:Try12}
+Response.nil?:{ars:MakeBotMove}
+
+
+
+
+.auto Try12={init}{arslock}
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:{/user}}?:Bot has made an error still.
+String.{r?SSTTT:{randlist:TR,TL,TM,MR,ML,MM,LR,LL,LM}} == {r?SSTTT:Echo}?:Bot has made an error still.
+Response.nil?:{ars:MakeBotMove}

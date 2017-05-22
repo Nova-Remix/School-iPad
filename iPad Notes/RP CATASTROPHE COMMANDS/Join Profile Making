@@ -1,0 +1,343 @@
+On Join
+
+Join Code: 7UwZffG
+
+
+Test Image: https://s-media-cache-ak0.pinimg.com/originals/0d/48/43/0d48430bcec54b170aef6a1a14ea0f0b.jpg
+
+
+
+
+.greet *Thank you, {user}, for joining* ***RP ~Catastrophe~*** *! Please take the time to read the rules, and once you are finished type in EXACTLY this:* `Finished rules!`.*
+
+
+
+.auto &Finished rules!={init}
+{clear:4}
+DB:Profile.{user}-g?:*You already have part of your character Completed! To view what you have done, type in `.viewprofile`! If you want to end fixing your profile, just type in `.FinishedProfile`!*
+Response.nil?:*Thank you for reading the rules! Now we may begin setting up your profile. What gender is your character? When typing your response, please only provide your gender and no extra words. Also, make sure to use a capital letter.*
+
+
+
+.auto &{:}(Male|Female|Genderfluid|Hermaphrodite|Transgender|Homoflexible|Futa|Trans)={init}
+{clean}
+{clear:4}
+{role:RP's as {content}}
+{m?Profile:{user}-g} := {content}
+*You are {content}, correct? Type in `Yes` or `No`!*
+{ars:Question2}
+
+
+
+.auto Yes={init}
+{clear:20}
+*Thank you for confirming your response!*
+{delme:5s}
+
+
+
+.auto No={init}
+{clear:4}
+*Please retype your answer.*
+
+
+
+.auto Question2={init}{arslock}
+{sleep:10s}
+{clear:10}
+*What species is your character? Please respond by saying exactly: `My species is a` then add in your species name.*
+
+
+
+.auto &My species is a={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-f} := {content}
+*Your species is a {content}, correct? Please respond by typing either `Yes` or `No`.*
+{ars:Question3}
+
+
+
+.auto Question3={init}{arslock}
+{clear:2}
+{sleep:12s}
+*How old is your character? Respond by typing in `My character is` then a number. Please only use numbers...*
+
+
+
+.auto &My character is={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-a} := {content}
+*Your character is {content} years old, correct? Please respond by typing either `Yes` or `No`.*
+{ars:Question4}
+
+
+
+.auto Question4={init}{arslock}
+{sleep:5s}
+{clear:20}
+*Please paste a link to the picture of your character. If you do not have a photo then type in `None`.*
+
+
+
+.auto &{:}(https://|http://|www.|None)={init}
+{clear:20}
+ContentContains.None?:Are you sure you don't want to use a photo? `Yes` or `No`. {ars:Question5}{m?Profile:{user}-ref} := *None*
+Response.nil?:*Are you sure this is your character's photo? `Yes` or `No`. If there is no photo then just ignore this question, it will delete itself.* {attach|url:{content}}{attach|name:file.png}{ars:Question5}{m?Profile:{user}-ref} := {attach|url:{content}}
+
+
+
+
+.auto Question5={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What is your character's name? Please respond by typing `My character's name is` then your character's name.*
+
+
+
+.auto &My character's name is={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-name} := {content}
+*Are you sure you want to use {content} as your character's name? `Yes` or `No`.*
+{ars:CharacterSheet1}
+
+
+
+.auto CharacterSheet1={init}
+{arslock}
+{sleep:12s}
+{clear:20}
+*I have made some of your character sheet!*
+
+
+***Name:*** *{r?Profile:{user}-name}*
+***Gender:*** *{r?Profile:{user}-g}*
+***Age:*** *{r?Profile:{user}-a}*
+***Species:*** *{r?Profile:{user}-f}*
+***Appearance:*** {r?Profile:{user}-ref}
+
+*There are a few more steps to go! Please type in `Continue` to resume with the profile making!*
+
+
+
+.auto Continue={init}
+{clear:20}
+*You must make your character's personalities! When doing your personalities, keep everything on ONE line and separate each personality with a comma. Example:*
+
+**Funny, Smart, Sarcastic, etc..**
+
+*To begin typing your personalities, type in `Character Personalities:` then the personalities.*
+
+
+.auto &Character Personalities:={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-p} := {content}
+*Are you sure you want your character's personalities to be:*
+**{content}** *? `Yes` or `No`.*
+{ars:Question6}
+
+
+
+.auto Question6={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What is your character's eye color? Use `My character's eyes are` then the color.*
+
+
+
+.auto &My character's eyes are={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-eyes} := {content}
+*Are you sure you want your character's eye color to be {content}? `Yes` or `No`.*
+{ars:Question7}
+
+
+
+.auto Question7={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What color hair does your character have? Type in `My character's hair is` then the hair color! If your character does not have hair and instead has feathers, fur, or anything else, we will consider it as "hair" for now.*
+
+
+
+.auto &My character's hair is={init}
+{clear:20}
+{clean}
+{m?Profile:{user}-hair} := {content}
+*Are you sure you want your hair color to be {content}? `Yes` or `No`*
+{ars:Question8}
+
+
+
+.auto Question8={init}{arslock}
+{clear:20}
+{sleep:12s}
+*What month was your character born? Use `Born in` then the month.*
+
+
+.auto &Born in={init}
+{clear:20}
+{clean}
+{m?Profile:{user}-month} := {content}
+*Your character was born in {content}, correct? `Yes` or `No`.*
+{ars:CharacterSheet2}
+
+
+.auto CharacterSheet2={init}{arslock}
+{sleep:12s}
+{clear:20}
+*I have made some more of your character sheet!*
+
+
+***Name:*** *{r?Profile:{user}-name}*
+***Gender:*** *{r?Profile:{user}-g}*
+***Age:*** *{r?Profile:{user}-a}*
+
+***Species:*** *{r?Profile:{user}-f}*
+
+***Month of Birth:*** *{r?Profile:{user}-month}*
+
+***Appearance:*** {r?Profile:{user}-ref}
+***Hair/Fur/Scale/etc.. Color:*** *{r?Profile:{user}-hair}*
+***Eye Color:*** *{r?Profile:{user}-eyes}*
+
+***Personality:*** *{r?Profile:{user}-p}*
+{ars:Question9}
+
+
+
+.auto Question9={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What does your character like to do or even eat? Type in `My character likes` then your character's likes.*
+
+
+
+.auto &My character likes={init}
+{clear:20}
+{clean}
+{m?Profile:{user}-likes} := {content}
+*Are you sure you want your character's likes to be:*
+***{content}*** *? `Yes` or `No`.*
+{ars:Question10}
+
+
+
+.auto Question10={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What orientation is your character? Straight, gay, bi, etc... Use `My character's orientation is` then the orientation.*
+
+
+
+.auto &My character's orientation is={init}
+{clear:20}
+{clean}
+{m?Profile:{user}-o} := {content}
+*Are you sure your character's orientation is {content}? `Yes` or `No`.* {ars:Question11}
+
+
+
+.auto Question11={init}{arslock}
+{sleep:12s}
+{clear:20}
+*What does your character dislike doing or eating? Type in `My character dislikes` then the dislikes.*
+
+
+
+.auto &My character dislikes={init}
+{clear:20}
+{clean}
+{m?Profile:{user}-dislikes} := {content}
+*Are you sure you want your character's dislikes to be:*
+**{content}** *? `Yes` or `No`.*
+{ars:Question12}
+
+
+
+.auto Question12={init}{arslock}
+{sleep:12s}
+{clear:20}
+*How many pounds does your character weigh? Please only provide the number and do not add in "pounds" or "Ibs" at the end. To respond to the question, type in `My character weighs` then just the number.*
+
+
+
+.auto &My character weighs={init}
+{clean}
+{clear:20}
+{m?Profile:{user}-w} := {content}
+*Are you sure you want your character's weight to be {content} pounds? `Yes` or `No`.*
+{ars:CharacterSheet3}
+
+
+
+.auto CharacterSheet3={init}{arslock}
+{sleep:12s}
+{clear:20}
+*I have finished most of your character sheet, {user}!*
+
+***Name:*** *{r?Profile:{user}-name}*
+***Gender:*** *{r?Profile:{user}-g}*
+***Age:*** *{r?Profile:{user}-a}*
+***Species:*** *{r?Profile:{user}-f}*
+
+***Month of Birth:*** *{r?Profile:{user}-month}*
+
+***Orientation:*** *{r?Profile:{user}-o}*
+
+***Weight:*** *{r?Profile:{user}-w} pounds*
+***Hair/Fur/Feather/etc.. Color:*** *{r?Profile:{user}-hair}*
+***Eye color:*** *{r?Profile:{user}-eyes}*
+***Appearance:*** {r?Profile:{user}-ref}
+
+***Personality:*** *{r?Profile:{user}-p}*
+***Likes:*** *{r?Profile:{user}-likes}*
+***Dislikes:*** *{r?Profile:{user}-dislikes}*
+
+*Do you wish to begin your adventure? `Yes` or `No`.*
+{delme:10s}
+{ars:Redirect}
+
+
+
+.auto ClearHistory={init}{arslock}
+{sleep:9s}
+{take:Guest}{role:Setup}
+{ars:RoleSetup}
+
+
+
+.auto Redirect={init}{arslock}
+{redirect:280583652113645580}
+*{user}'s Character Sheet*
+
+***Name:*** *{r?Profile:{user}-name}*
+***Gender:*** *{r?Profile:{user}-g}*
+***Age:*** *{r?Profile:{user}-a}*
+***Species:*** *{r?Profile:{user}-f}*
+
+***Month of Birth:*** *{r?Profile:{user}-month}*
+
+***Orientation:*** *{r?Profile:{user}-o}*
+
+***Weight:*** *{r?Profile:{user}-w} pounds*
+***Hair/Fur/Feather/etc.. Color:*** *{r?Profile:{user}-hair}*
+***Eye color:*** *{r?Profile:{user}-eyes}*
+***Appearance:*** {r?Profile:{user}-ref}
+
+***Personality:*** *{r?Profile:{user}-p}*
+***Likes:*** *{r?Profile:{user}-likes}*
+***Dislikes:*** *{r?Profile:{user}-dislikes}*
+{ars:ClearHistory}
+
+
+
+
+.auto &.FinishedProfile={init}
+{clear:20}
+DB:Profile.{user}-w?:{ars:Redirect}
+Response.nil?:{clear:20}{delme:5s}You cannot end your profile until you finished your first one!

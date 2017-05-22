@@ -1,0 +1,244 @@
+Heist Game
+Clash Royale
+
+
+
+
+.auto !banks={init}
+```ml
+Target         Max Group       Vault      Success Rate
+-----------  --------------  ----------  --------------
+Gem Mines             50     3,674,478      2%
+Gold Vault            16       102,871      5%
+Troop Depot            6        20,128      7%
+Goblin Shop            2        30,837     15%
+```
+
+
+
+
+.auto !end={init}
+use | 271873926945177602
+{if(isuser):
+{d?Heist:InProgress}
+{d?Heist:In|{self}}
+{d?Heist:PlayerAmount}
+{d?Heist:Players}
+*Heist has been reset, {user}!*
+}
+
+
+
+
+.auto &!bank register={init}
+{m?Slots:balance|{/user}} := 1000
+*Thank you for registering for a bank, {/user}! You have been given `1000` gems to start out with!*
+
+
+
+
+.auto &!bal={init}
+DB:Slots.balance|{/user}?:{ars:ShowBalance}
+Response.nil?:{ars:CheckForMention}
+
+
+
+
+.auto ShowBalance={init}{arslock}
+```ruby
+===========
+{/user}'s Balance: {r?Slots:balance|{/user}} gems
+===========
+```
+
+
+
+
+.auto CheckForMention={init}{arslock}
+String.{/user} == {self}?:*You did not start a Bank Account! You can do so by typing in `!bank register`.*
+Response.nil?:*The user you have mentioned doesn't have a bank account! They must create one by typing in `!bank register`.*
+
+
+
+
+.auto !pd={init}
+DB:Slots.balance|{/user}?:{ars:PayDay}
+Response.nil?:*You do not have a bank account! You can get one by typing in `!bank register`*
+
+
+
+
+.auto PayDay={init}{arslock}
+DB:Slots.pdCooldown-{/user}?:*You must wait 20 minutes before you can collect your next daily payday!*
+Response.nil?:{ars:PayUser}
+
+
+
+
+.auto PayUser={init}{arslock}
+*Here's your daily gems, {user}! Enjoy!* ***(+1200 gems!)***
+{e?Slots:balance|{/user}(+1200)}
+{ars:PaydayCooldown}
+
+
+
+
+.auto PaydayCooldown={init}{arslock}
+{m?Slots:pdCooldown-{/user}} := 20 minutes
+{ars:CooldownEnded}
+
+
+
+
+.auto CooldownEnded={init}{arslock}
+{sleep:20m}
+{d?Slots:pdCooldown-{/user}}
+
+
+
+
+.auto &!pay {params}={init}{mention:*This command requires a mention!*}
+DB:Slots.balance|{self}?:{ars:CheckForBank}
+Response.nil?:*<@{/rawid}>, you do not have a bank account! You must first create one by typing in `!bank register`*
+
+
+
+
+.auto CheckForBank={init}{arslock}
+DB:Slots.balance|{/user}?:{ars:CheckForAmount}
+Response.nil?:*{/user} does not have a bank account! They must create one by doing `!bank register`*
+
+
+
+
+.auto CheckForAmount={init}{arslock}
+ParamRegex.(1|2|3|4|5|6|7|8|9|0)?:{ars:CheckAmount}
+Response.nil?:*You must give a specified value to give!*
+
+
+
+
+.auto CheckAmount={init}{arslock}
+Count.{r?Slots:balance|{/user}} >= {params}?:{ars:PayWho}
+Response.nil?:*You do not have enough gems to do this transaction!*
+
+
+
+
+.auto PayWho={init}{arslock}
+String.{/user} == {self}?:*You cannot pay yourself!*
+Response.nil?:{ars:GivePay}
+
+
+
+
+.auto GivePay={init}{arslock}
+*<@{/rawid}>, you have given {/user} `{params}` gems!*
+{e?Slots:balance-{/user}(+{params})}
+{e?Slots:balance|{self}(-{params})}
+
+
+
+
+.auto &{:}(\!hplay|\!heist play)={init}
+{-mentions}
+DB:Heist.InProgress?:*There's already a heist in progress, {user}!*
+Response.nil?:{ars:CheckForBank}
+
+
+
+
+.auto CheckForBank={init}{arslock}
+DB:Slots.balance|{self}?:{ars:EnoughForHeist}
+Response.nil?:*<@{/rawid}>, you must have a bank account! You can create one by typing `!bank register`*
+
+
+
+
+.auto EnoughForHeist={init}{arslock}
+Count.{r?Slots:balance|{self}} >= 100?:{ars:AlreadyInHeist}
+Response.nil?:*<@{/rawid}>, you do not have enough gems! You must have `100` gems to play Heist!*
+
+
+
+
+.auto AlreadyInHeist={init}{arslock}
+DB:Heist.In|{self}?:*You're already in the heist, <@{/rawid}>!*
+Response.nil?:{ars:AddHeistMember}
+
+
+
+
+.auto AddHeistMember={init}{arslock}
+DB:Heist.PlayerAmount?:{ars:NewMember}{e?Heist:PlayerAmount(+1)}
+Response.nil?:*A heist is being planned by <@{/rawid}>. Type `!heist play` to join the crew! Heist will begin in 180 seconds.*{ars:AddBlah}
+
+
+
+
+.auto AddBlah={init}{arslock}
+{m?Heist:PlayerAmount} := 1
+{m?Heist:In|{self}} := Yes
+{ars:StartingHeist}
+
+
+
+
+.auto StartingHeist={init}{arslock}
+{sleep:176s}
+{m?Heist:Players} := {/user}
+Count.{r?Heist:PlayerAmount} == 1?:*Not enough members have joined! You must have 2 or more members in your crew.* {d?Heist:PlayerAmount}{d?Heist:In|{self}}
+Response.nil?:{ars:CreateHeistData}
+
+
+
+
+.auto NewMember={init}
+*{/user} has joined the crew.
+The crew now has {r?Heist:PlayerAmount} members.*
+{m?Heist:In|{self}} := Yes
+{m?Heist:Players} := {r?Heist:Players},{/user}
+
+
+
+
+.auto CreateHeistData={init}{arslock}
+Count.{r?Heist:PlayerAmount} == 2?:{ars:Goblin Shop}
+Count.{r?Heist:PlayerAmount} == 3?:{ars:Troop Depot}
+Count.{r?Heist:PlayerAmount} == 4?:{ars:Troop Depot}
+Count.{r?Heist:PlayerAmount} == 5?:{ars:Troop Depot}
+Count.{r?Heist:PlayerAmount} == 6?:{ars:Troop Depot}
+Count.{r?Heist:PlayerAmount} == 7?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 8?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 9?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 10?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 11?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 11?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 12?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 13?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 14?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 15?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} == 16?:{ars:Gold Vault}
+Count.{r?Heist:PlayerAmount} >= 17?:{ars:Gem Mines}
+
+
+
+
+.auto Goblin Shop={init}{arslock}
+{m?Heist:InProgress} := True
+{r?Heist:Players} {randlist:had gotten lost on the escape route and ended up driving to the police station. ```{r?Heist:Players} dropped out of the game```,has gotten shot in the head by a S.W.A.T member. ```{r?Heist:Players} dropped out of the game```,has ordered pizza for the crew! **+25 credits** {e?Slots:balance|{self}(+25)}}
+{ars:EndGameGoblin}
+
+
+
+
+.auto EndGameGoblin={init}{arslock}
+*Calculating Results...*
+```ruby
+{r?Heist:Players} has earned {rand:1,30837} gems!
+```
+{e?Slots:balance|{r?Heist:Players}(+{rand:1,30837})}
+{d?Heist:In|{self}}
+{d?Heist:InProgress}
+{d?Heist:Players}
+{d?Heist:PlayerAmount}

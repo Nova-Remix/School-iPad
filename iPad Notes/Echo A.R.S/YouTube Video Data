@@ -1,0 +1,72 @@
+YouTube Video A.R.S
+
+.setvar apikey AIzaSyDWnpfTiz5CspvU_94ZSh8ve89bmrO4e2s
+
+https://www.googleapis.com/youtube/v3/videos?id={params}&key={.apikey}&part=snippet,contentDetails,statistics,status
+
+.auto &.stats {params}={init}
+{getapi:
+  {src:https://www.googleapis.com/youtube/v3/videos?id={params:url}&key={.apikey}&part=snippet,contentDetails,statistics,status}
+ {embed:
+   {title:
+     {print:items:snippet:title}
+        }
+                {type:rich}
+                {author|name:Statistics for requested YouTube Video!}
+          {author|icon:{owner|avatar}}
+        {color:
+            {randlist:
+#ff0000,#00ff00,#ffffff,#4286f4,#f45642,#262525,#e2d626,#87e226,#26e2c0,#2633e2,#8126e2
+    }
+}
+        {field[0]|name:Channel Title}
+        {field[0]|value:{print:items:snippet:channelTitle}}
+        {field[0]|inline:true}
+        {field[1]|name:Video Description}
+        {field[1]|value:{print:items:snippet:description}}
+        {field[1]|inline:true}
+        {field[2]|name:Duration}
+        {field[2]|value:{print:items:contentDetails:duration} (M=Minutes, S=Seconds)}
+        {field[2]|inline:true}
+        {field[3]|name:Watch Now}
+        {field[3]|value:[Click Here!](https://www.youtube.com/watch?{print:items:id} )}
+        {field[3]|inline:true}
+        {field[4]|name:Views}
+        {field[4]|value:{print:items:statistics:viewCount}}
+        {field[4]|inline:true}
+        {field[5]|name:Likes}
+        {field[5]|value:{print:items:statistics:likeCount}}
+        {field[5]|inline:true}
+        {field[6]|name:Dislikes}
+        {field[6]|value:{print:items:statistics:dislikeCount}}
+        {field[6]|inline:true}
+        {field[7]|name:Comments}
+        {field[7]|value:{print:items:statistics:commentCount}}
+        {field[7]|inline:true}
+    }
+}
+
+
+
+
+
+.auto &.status {params}={init}
+{getapi:
+  {src:https://www.googleapis.com/youtube/v3/videos?id={params:url}&key={.apikey}&part=snippet,contentDetails,statistics,status}
+***Published:*** {print:items:snippet:publishedAt}
+***Created By:*** {print:items:snippet:channelTitle}
+***Description:*** {print:items:snippet:description}
+***Duration:*** {print:items:contentDetails:duration}
+***Views:*** {print:items:statistics:viewCount}
+***Likes:*** {print:items:statistics:likeCount}
+***Dislikes:*** {print:items:statistics:dislikeCount}
+***Favorites:*** {print:items:statistics:favoriteCount}
+***Comments:*** {print:items:statistics:commentCount}
+***Link:*** https://www.youtube.com/watch?{print:items:id}
+}
+
+la0-5QFLr14
+
+7lCDEYXw3mM
+
+msHA3ZHv-uk

@@ -1,0 +1,8 @@
+.auto &.CreateNew={init}{del}
+{redirect:300341977793167361}
+*What gender is your character, {user}? When typing your response, please only provide your gender and no extra words. Also, make sure to use a capital letter.*
+{ars:New}
+
+
+.auto New={init}{arslock}
+{role:Guest}{take:Member}

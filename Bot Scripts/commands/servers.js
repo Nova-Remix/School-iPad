@@ -1,9 +1,3 @@
-Folder: commands
-
-servers.js
-
-
-
 exports.run = (client, message) => {
 client.guilds.map(g=>g.name).join('\n\n')
 

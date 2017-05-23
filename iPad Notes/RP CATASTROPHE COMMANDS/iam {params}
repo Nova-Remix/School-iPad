@@ -1,0 +1,31 @@
+.auto &.iam {params}={init}
+use | {params}
+{if(hasrole):
+You already have this role!
+} (else) {
+Params.PM Friendly?:{role:PM Friendly}You now have the role `{params}`!
+ParamRegex.(Gay/Lesbian|Gay|Lesbian|gay/lesbian|gay|lesbian)?:{role:Gay/Lesbian}You now have the role `{params}`!
+ParamRegex.(Gamer|gamer)?:{role:Gamer}You now have the role `{params}`!
+ParamRegex.(NSFW|nsfw|Nsfw)?:{ars:Above18}
+ParamRegex.(Extreme|extreme)?:{ars:Above18}
+ParamRegex.(Straight|straight)?:{role:Straight}You now have the role `{params}`!
+ParamRegex.(Bi/Pan|Bi/pan|bi/Pan|bi/pan)?:{role:Bi/Pan}You now have the role `{params}`!
+ParamRegex.(Single|single)?:{role:Single}You now have the role `{params}`!
+ParamRegex.(Taken|taken)?:{role:Taken}You now have the role `{params}`!
+ParamRegex.(SFW|Sfw|sfw)?:{role:SFW}You now have the role `{params}`!
+ParamRegex.(Lewd|lewd)?:{ars:Above18}
+ParamRegex.(Genderfluid|genderfluid)?:{role:Genderfluid}You now have the role `{params}`!
+Response.nil?:This is not a self-assignable role!
+}
+
+
+
+.auto Above18={init}{arslock}
+use | Above 18
+{if(hasrole):
+ {role:
+     {params}
+}You now have the role `{params}`!
+} (else) {
+You have either not confirmed your age, which can be done by sending in the form from #introduction, or you are underage!
+}

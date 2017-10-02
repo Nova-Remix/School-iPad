@@ -2,7 +2,7 @@ use Bank;
 use Slots;
 if(Bank[UserID]) {
   if(Bank[UserID] >= 1000) {
-    var slot = [":cherries:", ":snowflake:", ":four_leaf_clover:", ":star2:", ":one:", ":sunflower:"]
+    var slot = [":cherries:", ":snowflake:", ":four_leaf_clover:", ":star2:", ":one:", ":sunflower:"];
     var rand = Math.floor(Math.random() * slot.length);
     var a1 = rand;
     var a2 = rand;

@@ -10,14 +10,18 @@ if(Bank[UserID] < 100) {
   if(Heist["in|progress"]) {
     resp = "A game is already in session, <@" + UserID + ">";
   } else {
-    if(players) {
-      players++
-      listplayers = listplayers.slice(0, -1) + ', ' + UserID + '"]';
-      resp = "You have joined the Heist, <@" + UserID + ">.";
+    if(listplayers.indexOf(UserID)) {
+      resp = "You're already in the Heist, <@" + UserID + ">!";
     } else {
-      players = 1;
-      listplayers = '["' + UserID + '"]';
-      resp = "<@" + UserID + "> is planning a heist. Type `!heist play` to join!";
+      if(players) {
+        Heist["Players"]++;
+        Heist["PlayerIDs"] = Heist["PlayerIDs"].slice(0, -1) + ', ' + UserID + '"]';
+        resp = "You have joined the Heist, <@" + UserID + ">.";
+      } else {
+        Heist["Players"] = 1;
+        Heist["PlayerIDs"] = '["' + UserID + '"]';
+        resp = "<@" + UserID + "> is planning a Heist. Type `!heist play` to join!";
+      }
     }
   }
 }

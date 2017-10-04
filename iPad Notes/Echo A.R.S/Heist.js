@@ -12,10 +12,12 @@ if(Bank[UserID] < 100) {
   } else {
     if(players) {
       players++
-      listplayers = listplayers + ", " + UserID;
+      listplayers = listplayers.slice(0, -1) + ', ' + UserID + '"]';
       resp = "You have joined the Heist, <@" + UserID + ">.";
     } else {
       players = 1;
-      
+      listplayers = '["' + UserID + '"]';
       resp = "<@" + UserID + "> is planning a heist. Type `!heist play` to join!";
-      
+    }
+  }
+}

@@ -33,12 +33,12 @@ if(Bank[UserID + "-slimit"]) {
       } else {
         resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nBetter luck next time!";
       }
+    } else {
+      resp = "You must have at least **1000** credits!";
     }
-  } else {
-    resp = "You must have at least **1000** credits!";
   } else {
     resp = "You need to have a Bank Account first! You can create one by typing **!bank register**";
   }
 }
 >>
-{ars:DeleteSTimer}
+{ars:DeleteSTimer} 

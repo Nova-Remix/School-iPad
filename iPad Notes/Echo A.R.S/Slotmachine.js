@@ -33,19 +33,20 @@ if(Bank[UserID + "-slimit"]) {
         if(a1 == a2) {
           if(a2 == a3) {
             Bank[UserID] = JSON.parse(Bank[UserID]) + 10000;
-        resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nYou won! You have gained **+10,000** credits!";
+            resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nYou won! You have gained **+10,000** credits!";
+          } else {
+            resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nBetter luck next time!";
+          }
+        } else {
+          resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nBetter luck next time!";
+        }
       } else {
-        resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nBetter luck next time!";
+        resp = "You must have at least **1000** credits!";
       }
     } else {
-      resp = "-.|" + a4 + "|" + a5 + "|" + a6 + "|\n>|" + a1 + "|" + a2 + "|" + a3 + "|<\n-.|" + a7 + "|" + a8 + "|" + a9 + "|\n\nBetter luck next time!";
+      resp = "You need to have a Bank Account first! You can create one by typing **!bank register**";
     }
-  } else {
-    resp = "You must have at least **1000** credits!";
   }
-} else {
-  resp = "You need to have a Bank Account first! You can create one by typing **!bank register**";
-}
 }
 >>
 {ars:DeleteSTimer}

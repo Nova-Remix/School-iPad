@@ -11,9 +11,9 @@ BlackJ[UserID + "-dealer"] = 0;
 var dealer = JSON.parse(BlackJ[UserID + "-dealer"]);
 BlackJ[UserID] = 0;
 var mycards = JSON.parse(BlackJ[UserID]);
-dealer = dealer + cards[rand1];
+BlackJ[UserID + "-dealer"] = JSON.parse(BlackJ[UserID + "-dealer"]) + JSON.parse(cards[rand1]);
 var times4 = p * 4;
-mycards = mycards + cards[rand2]
+BlackJ[UserID] = JSON.parse(BlackJ[UserID]) + JSON.parse(cards[rand2]);
 if(dealer == 21) {
   resp = "Dealer drew a **" + cards[rand1] + "**! The dealer has automatically won and **" + p + " credits** have been withdrawn from your account.";
   delete BlackJ[UserID + "-dealer"];
@@ -22,10 +22,10 @@ if(dealer == 21) {
   if(mycards == 21) {
     delete BlackJ[UserID + "-dealer"];
     delete BlackJ[UserID];
-    bank = bank + (p * 4);
-    resp = "You drew a **" + cards[rand2] + "**! You have automatically won and **" + times4 + " credits** have been added to your account.";
+    Bank[UserID] = JSON.parse(Bank[UserID]) + JSON.parse(Params)*5;
+    resp = "You drew a **" + cards[rand2] + "**! You have automatically won and **" + times4 + " credits** have been added to your account, <@" + UserID + ">!";
   } else {
-    resp = "**Dealer's Pull:** " + cards[rand1] + "\n**Your Deal:** " + cards[rand2] + "\n\n*You can either* ***!hit*** *or* ***!pass*** *, <@" + UserID + ">.";
+    resp = "**Dealer's Total:** " + cards[rand1] + "\n**Your Total:** " + cards[rand2] + "\n\n*You can either* ***!hit*** *or* ***!pass*** *, <@" + UserID + ">.*";
   }
 }
 >>

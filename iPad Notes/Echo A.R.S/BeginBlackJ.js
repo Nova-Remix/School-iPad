@@ -12,14 +12,13 @@ var dealer = JSON.parse(BlackJ[UserID + "-dealer"]);
 BlackJ[UserID] = 0;
 var mycards = JSON.parse(BlackJ[UserID]);
 BlackJ[UserID + "-dealer"] = JSON.parse(BlackJ[UserID + "-dealer"]) + JSON.parse(cards[rand1]);
-var times4 = p * 4;
 BlackJ[UserID] = JSON.parse(BlackJ[UserID]) + JSON.parse(cards[rand2]);
-if(dealer == 21) {
+if(BlackJ[UserID + "-dealer"] == 21) {
   resp = "Dealer drew a **" + cards[rand1] + "**! The dealer has automatically won and **" + p + " credits** have been withdrawn from your account.";
   delete BlackJ[UserID + "-dealer"];
   delete BlackJ[UserID];
 } else {
-  if(mycards == 21) {
+  if(BlackJ[UserID] == 21) {
     delete BlackJ[UserID + "-dealer"];
     delete BlackJ[UserID];
     Bank[UserID] = JSON.parse(Bank[UserID]) + JSON.parse(Params)*5;

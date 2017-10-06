@@ -1,7 +1,7 @@
-.auto &!blackjack {params}={init}
+.auto &!bj {params}={init}
 #js >>
 if(Params.length <= 0) {
-  resp = "You must supply a bet, <@" + UserID + ">!";
+  resp = "*You must supply a bet, <@" + UserID + ">!*\n***Ex:*** *!blackjack 500*";
 } else {
   use BlackJ;
   use Bank;
@@ -12,6 +12,7 @@ if(Params.length <= 0) {
       resp = "Your bet must be between **100** and **1,000** credits, <@" + UserID + ">!";
     } else {
       if(p <= bank) {
+        BlackJ[UserID + "-bet"] = JSON.parse(Params);
         Bank[UserID] = bank - p;
       } else {
         resp = "You don't have that many credits in your bank, <@" + UserID + ">! Please try again when you have enough. Your Credits: **" + bank + "**\nYour Bet: **" + p + " credits**";

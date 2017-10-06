@@ -22,12 +22,15 @@ mycards = mycards + cards[rand2]
 if(dealer == 21) {
   resp = "Dealer drew a **" + cards[rand1] + "**! The dealer has automatically won and **" + p + " credits** have been withdrawn from your account.";
   delete BlackJ[UserID + "-dealer"];
+  delete BlackJ[UserID];
 } else {
   if(mycards == 21) {
+    delete BlackJ[UserID + "-dealer"];
+    delete BlackJ[UserID];
     bank = bank + (p * 4);
     resp = "You drew a **" + cards[rand2] + "**! You have automatically won and **" + times4 + " credits** have been added to your account.";
   } else {
-    resp = "**Dealer's Pull:** " + cards[rand1] + "\n**Your Deal:** " + cards[rand2];
+    resp = "**Dealer's Pull:** " + cards[rand1] + "\n**Your Deal:** " + cards[rand2] + "\n\n*You can either* ***!hit*** *or* ***!pass*** *, <@" + UserID + ">.";
   }
 }
 >>

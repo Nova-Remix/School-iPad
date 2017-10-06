@@ -1,0 +1,5 @@
+.auto BeginGame={init}{arslock}
+Count.{params} > 1000?:
+Count.{params} < 100?:
+Count.{params} <= {r?Bank:{rawid}}?:{ars:BeginBlackJ}
+Response.nil?:

@@ -1,6 +1,8 @@
 .auto &!blackjack {params}={init}
 #js >>
-if(Params != null) {
+if(Params.length <= 0) {
+  resp = "You must supply a bet, <@" + UserID + ">!";
+} else {
   use BlackJ;
   use Bank;
   var bank = JSON.parse(Bank[UserID]);
@@ -18,8 +20,6 @@ if(Params != null) {
   } else {
     resp = "You need to have a Bank Account first! You can create one by typing **!bank register**";
   }
-} else {
-  resp = "You must supply a bet to place, <@" + UserID + ">!";
 }
 >>
 {ars:BeginGame}

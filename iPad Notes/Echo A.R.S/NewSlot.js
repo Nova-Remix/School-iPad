@@ -8,7 +8,7 @@ if(Bank[UserID + "-slimit"]) {
     if(Bank[UserID] >= 1000) {
       Bank[UserID + "-slimit"] = "active";
       Bank[UserID] = JSON.parse(Bank[UserID]) - 1000;
-      var slot = [":cherries:", ":snowflake:", ":four_leaf_clover:", ":sunny:", ":sunflower:", ":cyclone:", ":hearts:", ":mushroom:", ":six:", ":two:", ":cookie:", ":sweat_drops:"];
+      var slot = [":cherries:", ":snowflake:", ":four_leaf_clover:", ":sunflower:", ":cyclone:", ":hearts:", ":mushroom:", ":six:", ":two:", ":cookie:"];
       var rand1 = Math.floor(Math.random() * slot.length);
       var rand2 = Math.floor(Math.random() * slot.length);
       var rand3 = Math.floor(Math.random() * slot.length);
@@ -21,12 +21,12 @@ if(Bank[UserID + "-slimit"]) {
         resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\nYou won! You have gained **+10,000** credits!";
       } else {
         if(a1 == ":two:" && a2 == ":six:" || a2 == ":two:" && a3 == ":six:") {
-          Bank[UserID] = JSON.parse(Bank[UserID]) + 5000;
-          resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\n**2 and 6**! You have earned **4,000 credits**, <@" + UserID + ">!";
+          Bank[UserID] = JSON.parse(Bank[UserID]) + 40000;
+          resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\n**2 and 6**! You have earned **40,000 credits**, <@" + UserID + ">!";
         } else {
           if(a1 == ":two:" && a2 == ":two:" && a3 == ":six:") {
             Bank[UserID] = JSON.parse(Bank[UserID]) + jackpot;
-            resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\n**2-2-6**! You have won the lottery, <@" + UserID + ">! **+" + jackpot + " credits**";
+            resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\n**2-2-6**! You have won the lottery, <@" + UserID + ">! (**+" + jackpot + " credits**)";
           } else {
             resp = ">|" + a1 + "|" + a2 + "|" + a3 + "|<\n\nBetter luck next time!";
           }

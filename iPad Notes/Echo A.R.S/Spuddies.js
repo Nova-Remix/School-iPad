@@ -44,4 +44,6 @@ if(UserID === RawUserID) {
 			money[UserID + "-cash"] = JSON.parse(money[UserID + "-cash"]) - cash;
 			money[RawUserID + "-cash"= JSON.parse(money[RawUserID + "-cash"]) - cash;
             }
+            }
+            }
 >>

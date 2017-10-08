@@ -1,4 +1,4 @@
-&.tictactoe={init}
+&!tictactoe={init}
 String.{/rawid} == {rawid}?:Mention the User you want to play Tic Tac Toe with.
 Response.nil?:{ars:makeTTTData}
 [#CONTINUE#]

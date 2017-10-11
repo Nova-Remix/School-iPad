@@ -1,0 +1,5 @@
+.auto !wipeheist={init}
+{d?Heist:PlayerIDs}
+{d?Heist:Game}
+{d?Heist:Players}
+{d?Heist:PlayerNames}

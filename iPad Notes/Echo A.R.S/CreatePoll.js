@@ -94,7 +94,7 @@ if(Params) {
 
 } else {
 
-  resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2";
+  resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC\n\nCurrently supports **10** options.";
 
 }
 >>

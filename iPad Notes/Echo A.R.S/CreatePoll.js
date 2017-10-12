@@ -67,8 +67,16 @@ if(Params) {
                     resp += "{reactbot::one: :two: :three: :four: :five: :six: :seven: :eight: :nine:}";
 
                   } else {
+                    
+                    if(psliced.length == 11) {
 
                     resp += "{reactbot::one: :two: :three: :four: :five: :six: :seven: :eight: :nine: :keycap_ten:}";
+                      
+                    } else {
+                      
+                      resp += "{reactbot::one: :two: :three: :four: :five: :six: :seven: :eight: :nine: :keycap_ten: :pause_button:}";
+                      
+                    }
 
                   }
 
@@ -94,7 +102,7 @@ if(Params) {
 
 } else {
 
-  resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC\n\nCurrently supports **10** options.";
+  resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC\n\nCurrently supports **11** options.";
 
 }
 >>

@@ -17,11 +17,11 @@ if(Params.length > 0) {
       react = react.replace(/\s$/g, "");
       react += "}";
       resp += react;
-    } else {
-      resp = "You must have at least 2 options to choose from, {user}!";
     }
   } else {
-    resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC\n\nCurrently supports **11** options.";
+    resp = "You must have at least 2 options to choose from, {user}!";
   }
+} else {
+  resp = "You must supply the title and 2 or more options! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC\n\nCurrently supports **11** options.";
 }
 >>

@@ -3,7 +3,7 @@
 if(Params.length > 0) {
   var p = Params.split(";");
   if(p[2] != null) {
-    if(.slice(p[0].length).indexOf(" ") > -1) {
+    if(Params.slice(p[0].length).indexOf(" ") > -1) {
       resp = "Please do not add spaces after `;`! **Example**\n\n!poll TITLE;OPTION1;OPTION2;ETC";
     } else {
       var psliced = Params.slice(p[0].length).split(";");
